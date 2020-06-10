@@ -1,5 +1,5 @@
 <template>
-  <div tabindex="0" class="hello" @keydown="bla">
+  <div tabindex="0" class="hello" @keydown.ctrl.exact="changePerspective" @keydown.space="rotateMenu" @click="rotateMenu">
     <div class="scene">
       <div class="box" :style="boxRenderStyle">
         <div class="box-face box-face-front">front</div>
@@ -21,6 +21,7 @@ export default {
       x: -45,
       y: -45,
       z: 0,
+      mode: 1,
       faceIndex: 0,
       faces: ["front", "left", "back", "right"]
     };
@@ -38,7 +39,18 @@ export default {
     }
   },
   methods: {
-    bla() {
+    changePerspective(){
+      if(this.mode){
+        this.x += 45;
+        this.y += 45;
+      }else{
+        this.x -= 45;
+        this.y -= 45;
+      }
+
+      mode = !mode;
+    },
+    rotateMenu() {
       this.x += 90;
 
       this.faceIndex += 1;
@@ -52,8 +64,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$box-height: 500px;
-$box-width: 500px;
+$side-length: calc((30vw + 30vh) / 2);
 $opacity: 1;
 $tweenSpeed: 0.2s ease;
 $--x-angle: 0deg;
@@ -66,23 +77,23 @@ $--z-angle: 0deg;
   height: 100vh;
 
   .scene {
-    width: $box-width;
-    height: $box-height;
+    width: $side-length;
+    height: $side-length;
     perspective: 0px;
     margin: auto;
   }
 
   .box {
-    width: $box-width;
-    height: $box-height;
+    width: $side-length;
+    height: $side-length;
     transform-style: preserve-3d;
-    transform: translateZ(calc( -($box-height - 50)px));
+    transform: translateZ(calc( -(#{$side-length} - 50px)));
     transition: transform 1s;
   }
 
   .box-face {
-    width: $box-width;
-    height: $box-height;
+    width: $side-length;
+    height: $side-length;
     position: absolute;
     border: 2px solid black;
     font-size: 40px;
@@ -95,19 +106,19 @@ $--z-angle: 0deg;
 
   .box-face-front,
   .box-face-back {
-    line-height: $box-width;
+    line-height: $side-length;
   }
 
   .box-face-right,
   .box-face-left {
     left: 0px;
-    line-height: $box-width;
+    line-height: $side-length;
   }
 
   .box-face-top,
   .box-face-bottom {
     top: 0px;
-    line-height: $box-width;
+    line-height: $side-length;
   }
 
   .box-face-front {
@@ -139,31 +150,31 @@ $--z-angle: 0deg;
 
   .box-face-front {
     transform: rotateY(var(--x-angle)) rotateX(var(--y-angle)) rotateY(0deg)
-      translateZ(250px);
+      translateZ(calc(#{$side-length} / 2));
     transition: transform $tweenSpeed;
   }
   .box-face-back {
     transform: rotateY(var(--x-angle)) rotateX(var(--y-angle)) rotateY(180deg)
-      translateZ(250px);
+      translateZ(calc(#{$side-length} / 2));
     transition: transform $tweenSpeed;
   }
 
   .box-face-right {
     transform: rotateY(var(--x-angle)) rotateX(var(--y-angle)) rotateY(90deg)
-      translateZ(250px);
+      translateZ(calc(#{$side-length} / 2));
     transition: transform $tweenSpeed;
   }
   .box-face-left {
     transform: rotateY(var(--x-angle)) rotateX(var(--y-angle)) rotateY(-90deg)
-      translateZ(250px);
+      translateZ(calc(#{$side-length} / 2));
     transition: transform $tweenSpeed;
   }
 
   .box-face-top {
-    transform: rotateX(90deg) translateZ(250px);
+    transform: rotateX(90deg) translateZ(calc(#{$side-length} / 2));
   }
   .box-face-bottom {
-    transform: rotateX(-90deg) translateZ(250px);
+    transform: rotateX(-90deg) translateZ(calc(#{$side-length} / 2));
   }
 
   label {
