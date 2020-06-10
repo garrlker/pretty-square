@@ -64,7 +64,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$side-length: calc((30vw + 30vh) / 2);
+$side-length: calc((40vw + 40vh) / 2);
 $opacity: 1;
 $tweenSpeed: 0.2s ease;
 $--x-angle: 0deg;

@@ -38,6 +38,8 @@ body {
   text-align: center;
   color: #2c3e50;
   transition: background 0.2s ease;
+  width: 100vw;
+  height: 100vh;
 
   &.front {
     background: linear-gradient(
